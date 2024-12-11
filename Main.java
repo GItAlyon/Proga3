@@ -176,6 +176,7 @@ class Game {
             while (true) {
                 int chel = new Random().nextInt(RESIDENTS_COUNT); // 0, 1, 2, 3, 4
                 System.out.println(chel);
+                int f = 0;
 
                 // Ввод данных пришедшего жильца
                 inputVisitorPass(visitor);
@@ -186,7 +187,7 @@ class Game {
                     System.out.print("Вы хотите позвонить в квартиру жильца? (y/n): ");
                     char zvon = scanner.next().charAt(0);
                     if (zvon == 'y'|| zvon == 'Y') {
-                        callResident(residents[chel]);
+                        callResident(residents[chel], f);
                     }
                     System.out.print("Вы хотите его пропустить? (y/n): ");
                     char prop = scanner.next().charAt(0);
@@ -202,7 +203,8 @@ class Game {
                     if (zvon == 'y'|| zvon == 'Y') {
                         int residentIndex = findResidentById(visitor.getId());
                         if (residentIndex != -1) {
-                            callResident(residents[chel]);
+                            f = 1;
+                            callResident(residents[chel], f);
                         } else {
                             System.out.printf("Не удалось найти жильца с ID %s.\n", visitor.getId());
                         }
@@ -254,7 +256,7 @@ class Game {
         }
     }
 
-    private void callResident(Resident resident) {
+    private void callResident(Resident resident, int f) {
         System.out.printf("Звонок на номер: %s\n", resident.getPhone());
         // Симуляция звонка
         for (int i = 0; i < 3; ++i) {
@@ -264,6 +266,12 @@ class Game {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+        }
+        if(f == 1){
+            System.out.println("Ответ: Я дома!");
+        }
+        else {
+            System.out.println("Ответа нет.");
         }
     }
 
